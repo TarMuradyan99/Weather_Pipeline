@@ -35,8 +35,3 @@ def hourly_data_transform():
     hourly_weather_df['city'] = city
     return hourly_weather_df
 
-
-#
-# # hourly_weather_df = hourly_weather_df.rename(columns = {'datetime':'date'})
-# # hourly_weather_df = hourly_weather_df['hours']
-# print(hourly_weather_df)
