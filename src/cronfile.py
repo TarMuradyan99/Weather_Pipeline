@@ -1,8 +1,10 @@
 from crontab import CronTab
-from config import config
+from config import Config
 
 cron = CronTab(user = True)
 my_user = CronTab(user = 'User')
+
+config = Config()
 
 python_path = config.PYTHON_PATH
 project_path = config.PROJECT_PATH

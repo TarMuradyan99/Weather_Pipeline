@@ -1,21 +1,28 @@
-import pandas as pd
-import sqlalchemy
-from transform import transform_daily_data,hourly_data_transform
-from config import config
-import psycopg2
+from transform import TransformWeatherData
+from config import Config
+
+config = Config()  # ✅ Create an instance first
 
 
-daily_weather = transform_daily_data()
-hourly_weather = hourly_data_transform()
+class LoadWeatherData(TransformWeatherData):
+    def __init__(self):
+        super().__init__()
+        self.daily_weather = self.transform_daily_data()
+        self.hourly_weather = self.hourly_data_transform()
 
-def load_weather_data(datafame,db_table_name):
-    datafame.to_sql(
-        db_table_name,
-        con = config.DATA_BASE_PATH,
-        if_exists = 'replace',
-        index = False,
-        schema = 'weath'
-    )
+    def load_weather_data(self,datafame,db_table_name):
+        try:
+            datafame.to_sql(
+                db_table_name,
+                con = config.DATA_BASE_PATH,
+                if_exists = 'append',
+                index = False,
+                schema = 'weath'
+            )
+        except Exception as e:
+            print(f"Something went wrong:{e}")
 
-load_weather_data(daily_weather,"daily_data_weather")
-load_weather_data(hourly_weather,"hourly_data_weather")
+
+s = LoadWeatherData()
+print(s.load_weather_data(s.daily_weather_df,"daily_data_weather"))
+print(s.load_weather_data(s.hourly_weather_df,"hourly_data_weather"))
