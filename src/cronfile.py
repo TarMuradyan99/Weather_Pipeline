@@ -1,21 +1,21 @@
-from crontab import CronTab
+import os
 from config import Config
-
-cron = CronTab(user = True)
-my_user = CronTab(user = 'User')
 
 config = Config()
 
 python_path = config.PYTHON_PATH
 project_path = config.PROJECT_PATH
 
+# Task Name
+task_name = "WeatherScriptTask"
 
-weather_job = cron.new(command = f'{python_path} {project_path}')
+# Corrected Task Scheduler command
+task_command = (
+    f'schtasks /create /tn "{task_name}" /tr "{python_path} {project_path}" '
+    f'/sc DAILY /mo 15 /st 10:00 /F'
+)
 
-weather_job.setall('0 10 */15 * *')
+# Execute the command
+os.system(task_command)
 
-cron.write()
-
-print("Cron job added successfully! It will run every 15 days at 10:00 AM.")
-
-
+print(f"Task '{task_name}' added successfully! It will run every 15 days at 10:00 AM.")
