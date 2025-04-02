@@ -1,2 +1,9 @@
 # created by virtualenv automatically
 ../../.venv/Lib
+
+# Ignore virtual environment folders (optional, depends on your setup)
+../../.venv/
+myenv/
+
+# Ignore secret environment file
+.env
