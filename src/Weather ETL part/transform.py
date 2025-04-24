@@ -31,4 +31,3 @@ class TransformWeatherData(WeatherDataExctract):
         return self.hourly_weather_df
 
 
-

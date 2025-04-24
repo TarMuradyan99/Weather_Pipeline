@@ -35,11 +35,13 @@ class WeatherDataExctract(Config):
                 response = requests.get(f"https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{city}?unitGroup=us&key={self.API_KEY}&contentType=json")
                 print(f"data fetched without any issue :{response}")
                 batch_of_data = response.json()
+                # print(batch_of_data)
                 hourly = batch_of_data.get('days',[])
                 for hour in hourly:
                     hours_data = hour.get('hours',[])
                     df = pd.DataFrame(hours_data)
                     df["city"] = batch_of_data["address"]
+                    df["date"] = hour.get('datetime',[])
                     all_data.append(df)
         except requests.exceptions.HTTPError as e:
             return f"HTTP ERROR is {e}"
@@ -55,3 +57,5 @@ class WeatherDataExctract(Config):
 
 
 data = WeatherDataExctract()
+
+
